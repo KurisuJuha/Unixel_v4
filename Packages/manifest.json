@@ -41,6 +41,21 @@
     "com.unity.modules.video": "1.0.0",
     "com.unity.modules.vr": "1.0.0",
     "com.unity.modules.wind": "1.0.0",
-    "com.unity.modules.xr": "1.0.0"
-  }
+    "com.unity.modules.xr": "1.0.0",
+    "jp.juhakurisu.popoextentions": "2.0.0",
+    "jp.juhakurisu.popomarkup": "1.0.0",
+    "jp.juhakurisu.popoutility": "1.2.0"
+  },
+  "scopedRegistries": [
+    {
+      "name": "package.openupm.com",
+      "url": "https://package.openupm.com",
+      "scopes": [
+        "com.openupm",
+        "jp.juhakurisu.popoextentions",
+        "jp.juhakurisu.popomarkup",
+        "jp.juhakurisu.popoutility"
+      ]
+    }
+  ]
 }
