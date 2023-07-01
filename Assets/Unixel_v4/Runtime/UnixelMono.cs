@@ -3,28 +3,30 @@ using UnityEngine;
 
 namespace JuhaKurisu.Unixels.V4
 {
-    internal class UnixelMono : MonoBehaviour
+    public class UnixelMono : MonoBehaviour
     {
         public Material material;
-        public int height;
-        public int width;
+        public Texture2D texture;
+        public Unixel unixel { get; private set; }
 
         private Mesh mesh;
 
         private void Start()
         {
             mesh = new();
+            SetTexture();
         }
 
-        private void Update()
+        private void LateUpdate()
         {
             GenerateMesh();
+            SetColors();
             Graphics.DrawMesh(mesh, transform.position, transform.rotation, material, 0);
         }
 
         private void GenerateMesh()
         {
-            float height = this.height / (float)this.width;
+            float height = unixel.height / (float)unixel.width;
             float width = 1;
 
             float m = width / height > Camera.main.aspect
@@ -56,9 +58,34 @@ namespace JuhaKurisu.Unixels.V4
             });
         }
 
-        public void SetTexture(Texture2D texture)
+        private void SetTexture()
         {
+            texture = new(unixel.width, unixel.height);
+            texture.filterMode = FilterMode.Point;
             material.mainTexture = texture;
+        }
+
+        private void SetColors()
+        {
+            texture.SetPixels32(unixel.colors);
+            texture.Apply();
+            unixel.colors = texture.GetPixels32();
+        }
+
+        /// <summary>
+        /// UnixelMonoのインスタンスを作成します。
+        /// </summary>
+        /// <param name="unixel">UnixelMonoの描画に使用するUnixelクラス</param>
+        /// <returns>作成したインスタンス</returns>
+        public static UnixelMono CreateUnixelDisplay(Unixel unixel)
+        {
+            UnixelMono unixelMono = new GameObject("[Unixel]").AddComponent<UnixelMono>();
+            unixelMono.transform.position = new();
+            unixelMono.transform.rotation = Quaternion.identity;
+            unixelMono.material = new(Shader.Find("Sprites/Default"));
+            unixelMono.unixel = unixel;
+
+            return unixelMono;
         }
     }
 }
